@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.ts",
+  mode: "development",
   devtool: "inline-source-map",
   devServer: {
     static: "./dist",
@@ -28,7 +29,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".tsx", ".ts", ".js",],
   },
   plugins: [
     new HtmlWebpackPlugin({
