@@ -1,30 +1,41 @@
 import './style.css';
 
+let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
 
 function createCanvas() {
-  const canvas = document.createElement('canvas');
-  canvas.setAttribute('id', 'canvas');
-  canvas.setAttribute('width', '100%');
-  canvas.setAttribute('height', '100%');
+  const el = document.createElement('canvas');
 
-  return canvas;
+  el.setAttribute('id', 'canvas');
+  el.width = window.innerWidth;
+  el.height = window.innerHeight;
+
+  return el;
 }
 
 // Main Game Loop
 function main() {
-  window.requestAnimationFrame(main);
-
+  // @TODO: game logic here
   ctx.fillStyle = 'green';
-  ctx.fillRect(0, 0, 100, 100);
+  ctx.fillRect(100, 100, 100, 100);
+
+  window.requestAnimationFrame(main);
 }
 
 function init() {
-  const canvas = createCanvas();
-  ctx = canvas.getContext('2d');
+  canvas = createCanvas();
 
   document.body.appendChild(canvas);
+
+  ctx = canvas.getContext('2d');
+
   window.requestAnimationFrame(main);
 }
 
-window.onload = init;
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+window.addEventListener('load', init, false);
+window.addEventListener('resize', resizeCanvas, false);
