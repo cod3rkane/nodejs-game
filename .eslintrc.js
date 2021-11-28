@@ -3,7 +3,13 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb'],
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -15,5 +21,15 @@ module.exports = {
   plugins: ['react', '@typescript-eslint'],
   rules: {
     quotes: [2, 'single', { allowTemplateLiterals: true }],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
 };

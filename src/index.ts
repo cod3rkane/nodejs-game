@@ -1,3 +1,4 @@
+import * as systems from './systems/render';
 import './style.css';
 
 let canvas: HTMLCanvasElement;
@@ -24,6 +25,8 @@ function main() {
   x += Math.random() * 5;
 
   ctx.fillRect(x, 100, 100, 100);
+
+  systems.render();
 
   window.requestAnimationFrame(main);
 }
