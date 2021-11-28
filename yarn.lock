@@ -3571,6 +3571,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fp-ts@npm:^2.11.5":
+  version: 2.11.5
+  resolution: "fp-ts@npm:2.11.5"
+  checksum: 68a4884527abca782a2f664b13152cd797b92b6042538905af95fa0e9da2e884bc5b05bdfcfbb02fdabfe8536ae6a62a24159696545d8a263413e4c007326c4a
+  languageName: node
+  linkType: hard
+
 "fresh@npm:0.5.2":
   version: 0.5.2
   resolution: "fresh@npm:0.5.2"
@@ -4139,6 +4146,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"io-ts@npm:^2.2.16":
+  version: 2.2.16
+  resolution: "io-ts@npm:2.2.16"
+  peerDependencies:
+    fp-ts: ^2.5.0
+  checksum: 1b5855682e413cc92cfb5c51d0bdb24c99e407ab4e67821a53078f5d8dedbc387840c5b240cb19dd5d542bbdd2e2317ece17674a674f3de561ca0f00ae765bba
+  languageName: node
+  linkType: hard
+
 "ip-regex@npm:^4.0.0":
   version: 4.3.0
   resolution: "ip-regex@npm:4.3.0"
@@ -4549,7 +4565,9 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-react: ^7.27.1
     eslint-plugin-react-hooks: ^4.3.0
+    fp-ts: ^2.11.5
     html-webpack-plugin: ^5.5.0
+    io-ts: ^2.2.16
     prettier: ^2.4.1
     style-loader: ^3.3.1
     ts-loader: ^9.2.6
