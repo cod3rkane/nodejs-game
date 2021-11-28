@@ -13,11 +13,17 @@ function createCanvas() {
   return el;
 }
 
+let x = 100;
+
 // Main Game Loop
 function main() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   // @TODO: game logic here
   ctx.fillStyle = 'green';
-  ctx.fillRect(100, 100, 100, 100);
+
+  x += Math.random() * 5;
+
+  ctx.fillRect(x, 100, 100, 100);
 
   window.requestAnimationFrame(main);
 }
