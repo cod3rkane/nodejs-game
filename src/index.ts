@@ -1,8 +1,10 @@
 import * as systems from './systems/render';
+import * as core from './core';
 import './style.css';
 
 let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
+let gameState: core.GameState;
 
 function createCanvas() {
   const el = document.createElement('canvas');
@@ -14,19 +16,12 @@ function createCanvas() {
   return el;
 }
 
-let x = 100;
-
 // Main Game Loop
-function main() {
+function main(timestamp: number) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // @TODO: game logic here
-  ctx.fillStyle = 'green';
 
-  x += Math.random() * 5;
-
-  ctx.fillRect(x, 100, 100, 100);
-
-  systems.render();
+  systems.renderGrid(ctx, gameState);
+  systems.render(ctx, gameState);
 
   window.requestAnimationFrame(main);
 }
@@ -37,6 +32,7 @@ function init() {
   document.body.appendChild(canvas);
 
   ctx = canvas.getContext('2d');
+  gameState = core.initialGameState(canvas.width, canvas.height);
 
   window.requestAnimationFrame(main);
 }
@@ -44,6 +40,8 @@ function init() {
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  gameState.windowWidth = window.innerWidth;
+  gameState.windowHeight = window.innerHeight;
 }
 
 window.addEventListener('load', init, false);

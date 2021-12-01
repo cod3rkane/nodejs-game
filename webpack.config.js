@@ -30,6 +30,10 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.(png|jpg|gif|svg)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
   resolve: {
@@ -43,6 +47,7 @@ module.exports = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: 'images/[hash][ext][query]',
     clean: true,
   },
 };
