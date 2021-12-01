@@ -1,7 +1,7 @@
 import { GameState } from '../core';
 
 const MAX_COLUMNS = 9 as const;
-const SPLIT_NUMBER = 1.08 as const;
+const SPLIT_NUMBER = 1.04 as const;
 
 function roundRect(
   ctx: CanvasRenderingContext2D,
@@ -31,10 +31,10 @@ export function renderGrid(
   gameState: GameState,
 ) {
   const windowHeight: number = gameState.windowHeight / 2;
-  const tileWidth = gameState.windowWidth / MAX_COLUMNS;
-  const tileHeight = (gameState.windowHeight / 2) / MAX_COLUMNS;
-  const marginTop = (SPLIT_NUMBER * tileHeight) / 4;
-  const marginLeft = (SPLIT_NUMBER * tileWidth) / 4;
+  const tileWidth = (gameState.windowWidth / MAX_COLUMNS) * 1.1;
+  const tileHeight = ((gameState.windowHeight / 2) / MAX_COLUMNS) * 1.1;
+  const marginTop = (SPLIT_NUMBER * tileHeight) / 2;
+  const marginLeft = (SPLIT_NUMBER * tileWidth) / 2;
 
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
@@ -49,7 +49,7 @@ export function renderGrid(
         (SPLIT_NUMBER * y * tileHeight + windowHeight) - marginTop,
         tileWidth,
         tileHeight,
-        8,
+        6,
       );
     }
   }
