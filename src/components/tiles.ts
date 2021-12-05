@@ -9,6 +9,12 @@ import water4PNG from '../resources/adventure/Water/wtile4.png';
 import water5PNG from '../resources/adventure/Water/wtile5.png';
 import water6PNG from '../resources/adventure/Water/wtile6.png';
 import grape from '../resources/grapes.svg';
+import background from '../resources/bg.jpg';
+import avocado from '../resources/avocado.png';
+import watermelon from '../resources/watermelon.svg';
+import orange from '../resources/orange.png';
+import green from '../resources/green.png';
+import blue from '../resources/blue.png';
 
 function getImageFromFile(img: any): HTMLImageElement {
   const image = new Image();
@@ -61,6 +67,30 @@ export const tiles = [
   {
     id: 10,
     image: getImageFromFile(grape),
+  },
+  {
+    id: 11,
+    image: getImageFromFile(background),
+  },
+  {
+    id: 12,
+    image: getImageFromFile(avocado),
+  },
+  {
+    id: 13,
+    image: getImageFromFile(watermelon),
+  },
+  {
+    id: 14,
+    image: getImageFromFile(orange),
+  },
+  {
+    id: 15,
+    image: getImageFromFile(green),
+  },
+  {
+    id: 16,
+    image: getImageFromFile(blue),
   },
 ] as const;
 

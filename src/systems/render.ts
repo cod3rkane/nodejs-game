@@ -1,7 +1,8 @@
 import { GameState } from '../core';
+import { tiles } from '../components';
 
 const MAX_COLUMNS = 9 as const;
-const SPLIT_NUMBER = 1.04 as const;
+const SCALE_NUMBER = 1.04 as const;
 
 function roundRect(
   ctx: CanvasRenderingContext2D,
@@ -32,21 +33,27 @@ export function renderGrid(
 ) {
   const windowHeight: number = gameState.windowHeight / 2;
   const tileWidth = (gameState.windowWidth / MAX_COLUMNS) * 1.1;
-  const tileHeight = ((gameState.windowHeight / 2) / MAX_COLUMNS) * 1.1;
-  const marginTop = (SPLIT_NUMBER * tileHeight) / 2;
-  const marginLeft = (SPLIT_NUMBER * tileWidth) / 2;
+  const tileHeight = (gameState.windowHeight / 2 / MAX_COLUMNS) * 1.1;
+  const marginTop = (SCALE_NUMBER * tileHeight) / 2;
+  const marginLeft = (SCALE_NUMBER * tileWidth) / 2;
 
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
 
+  ctx.drawImage(
+    tiles[11].image,
+    0,
+    gameState.windowHeight - tiles[11].image.height,
+  );
+
   for (let y = 0; y < MAX_COLUMNS; y += 1) {
     for (let x = 0; x < MAX_COLUMNS; x += 1) {
-      // const index = x + y * MAX_COLUMNS;
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.24)';
+      const index = x + y * MAX_COLUMNS;
+      ctx.fillStyle = index % 2 ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.4)';
       roundRect(
         ctx,
-        (SPLIT_NUMBER * x * tileWidth) - marginLeft,
-        (SPLIT_NUMBER * y * tileHeight + windowHeight) - marginTop,
+        SCALE_NUMBER * x * tileWidth - marginLeft,
+        SCALE_NUMBER * y * tileHeight + windowHeight - marginTop,
         tileWidth,
         tileHeight,
         6,
@@ -58,6 +65,22 @@ export function renderGrid(
 export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
   ctx.fillRect(0, 0, gameState.windowWidth, gameState.windowHeight / 2);
+
+  ctx.drawImage(
+    tiles[14].image,
+    25,
+    450,
+  );
+  ctx.drawImage(
+    tiles[15].image,
+    75,
+    450,
+  );
+  ctx.drawImage(
+    tiles[16].image,
+    125,
+    450,
+  );
 }
 
 export default render;
