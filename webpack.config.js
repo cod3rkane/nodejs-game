@@ -42,6 +42,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Juice World - Game',
+      template: path.resolve(__dirname, 'src/index.html'),
     }),
   ],
   output: {

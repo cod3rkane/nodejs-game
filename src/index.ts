@@ -7,9 +7,8 @@ let ctx: CanvasRenderingContext2D;
 let gameState: core.GameState;
 
 function createCanvas() {
-  const el = document.createElement('canvas');
+  const el = document.getElementById('canvas') as HTMLCanvasElement;
 
-  el.setAttribute('id', 'canvas');
   el.width = window.innerWidth;
   el.height = window.innerHeight;
 

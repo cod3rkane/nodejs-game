@@ -12,9 +12,8 @@ import grape from '../resources/grapes.svg';
 import background from '../resources/bg.jpg';
 import avocado from '../resources/avocado.png';
 import watermelon from '../resources/watermelon.svg';
-import orange from '../resources/orange.png';
-import green from '../resources/green.png';
-import blue from '../resources/blue.png';
+import soil from '../resources/soil.jpg';
+import grass from '../resources/grass.jpg';
 
 function getImageFromFile(img: any): HTMLImageElement {
   const image = new Image();
@@ -82,15 +81,11 @@ export const tiles = [
   },
   {
     id: 14,
-    image: getImageFromFile(orange),
+    image: getImageFromFile(soil),
   },
   {
     id: 15,
-    image: getImageFromFile(green),
-  },
-  {
-    id: 16,
-    image: getImageFromFile(blue),
+    image: getImageFromFile(grass),
   },
 ] as const;
 

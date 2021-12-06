@@ -41,9 +41,11 @@ export function renderGrid(
   ctx.imageSmoothingQuality = 'high';
 
   ctx.drawImage(
-    tiles[11].image,
+    tiles[15].image,
     0,
-    gameState.windowHeight - tiles[11].image.height,
+    gameState.windowHeight - windowHeight,
+    gameState.windowWidth,
+    windowHeight,
   );
 
   for (let y = 0; y < MAX_COLUMNS; y += 1) {
@@ -56,30 +58,25 @@ export function renderGrid(
         SCALE_NUMBER * y * tileHeight + windowHeight - marginTop,
         tileWidth,
         tileHeight,
-        6,
+        12,
       );
     }
   }
 }
 
 export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
+  const tileWidth = (gameState.windowWidth / MAX_COLUMNS) * 1.1;
+  const tileHeight = (gameState.windowHeight / 2 / MAX_COLUMNS) * 1.1;
+
   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
   ctx.fillRect(0, 0, gameState.windowWidth, gameState.windowHeight / 2);
 
   ctx.drawImage(
-    tiles[14].image,
-    25,
-    450,
-  );
-  ctx.drawImage(
-    tiles[15].image,
-    75,
-    450,
-  );
-  ctx.drawImage(
-    tiles[16].image,
-    125,
-    450,
+    tiles[12].image,
+    65,
+    860,
+    tileWidth,
+    tileHeight * 1.2,
   );
 }
 
