@@ -44,6 +44,15 @@ function resizeCanvas() {
 }
 
 function handleTouch(e: TouchEvent) {
+  if (e.touches.item(0)) {
+    gameState.mousePos = {
+      x: e.touches.item(0).clientX,
+      y: e.touches.item(0).clientY,
+    };
+  }
+}
+
+function handleTouchMove(e: TouchEvent) {
   e.preventDefault();
   e.stopPropagation();
 
@@ -60,4 +69,6 @@ function handleTouch(e: TouchEvent) {
 
 window.addEventListener('load', init, false);
 window.addEventListener('resize', resizeCanvas, false);
-window.addEventListener('touchmove', handleTouch, false);
+window.addEventListener('touchstart', handleTouch, false);
+window.addEventListener('touchmove', handleTouchMove, false);
+window.addEventListener('touchend', handleTouch, false);

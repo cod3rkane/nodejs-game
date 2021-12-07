@@ -77,9 +77,14 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
 
   for (let i = 0; i < GRID_SIZE; i += 1) {
     for (let j = 0; j < GRID_SIZE; j += 1) {
-      const key = gameState.items[i][j].id;
+      const item = gameState.items[i][j];
+
+      if (item.useAlpha) {
+        ctx.globalAlpha = 0.4;
+      }
+
       ctx.drawImage(
-        tiles[key].image,
+        tiles[item.id].image,
         SCALE_NUMBER * j * tileWidth - marginLeft + SCALE_NUMBER * tileWidth,
         SCALE_NUMBER * i * tileHeight
           + windowHeight
@@ -88,14 +93,10 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
         tileWidth,
         tileHeight,
       );
-      // roundRect(
-      //   ctx,
-      //   (SCALE_NUMBER * x * tileWidth - marginLeft) + (SCALE_NUMBER * tileWidth),
-      //   (SCALE_NUMBER * y * tileHeight + windowHeight - marginTop) + (SCALE_NUMBER * tileHeight),
-      //   tileWidth,
-      //   tileHeight,
-      //   12,
-      // );
+
+      if (item.useAlpha) {
+        ctx.globalAlpha = 1.0;
+      }
     }
   }
 }

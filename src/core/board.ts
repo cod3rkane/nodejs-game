@@ -19,6 +19,7 @@ export function createBoard(start: number, end: number): Item[][] {
     matrix[i][i] = ItemType.encode({
       id: generateRandomInteger(start, end),
       isSelected: false,
+      useAlpha: false,
       gridPos: {
         x: i,
         y: i,
@@ -29,6 +30,7 @@ export function createBoard(start: number, end: number): Item[][] {
       matrix[i][j] = ItemType.encode({
         id: generateRandomInteger(start, end),
         isSelected: false,
+        useAlpha: false,
         gridPos: {
           x: i,
           y: j,
