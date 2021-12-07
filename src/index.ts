@@ -43,5 +43,21 @@ function resizeCanvas() {
   gameState.windowHeight = window.innerHeight;
 }
 
+function handleTouch(e: TouchEvent) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  gameState.mousePos = {
+    x: e.touches.item(0).clientX,
+    y: e.touches.item(0).clientY,
+  };
+
+  console.info({
+    x: e.touches.item(0).clientX,
+    y: e.touches.item(0).clientY,
+  });
+}
+
 window.addEventListener('load', init, false);
 window.addEventListener('resize', resizeCanvas, false);
+window.addEventListener('touchmove', handleTouch, false);
