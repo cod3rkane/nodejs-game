@@ -1,4 +1,4 @@
-import * as systems from './systems/render';
+import * as systems from './systems';
 import * as core from './core';
 import './style.css';
 
@@ -18,6 +18,8 @@ function createCanvas() {
 // Main Game Loop
 function main(timestamp: number) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  gameState = systems.selectionItem(gameState);
 
   systems.renderGrid(ctx, gameState);
   systems.render(ctx, gameState);
@@ -67,8 +69,13 @@ function handleTouchMove(e: TouchEvent) {
   });
 }
 
+function handleTouchEnd() {
+  gameState.hasTouchEnd = true;
+}
+
 window.addEventListener('load', init, false);
 window.addEventListener('resize', resizeCanvas, false);
 window.addEventListener('touchstart', handleTouch, false);
 window.addEventListener('touchmove', handleTouchMove, false);
-window.addEventListener('touchend', handleTouch, false);
+window.addEventListener('touchend', handleTouchEnd, false);
+window.addEventListener('touchcancel', handleTouchEnd, false);
