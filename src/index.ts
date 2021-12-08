@@ -19,7 +19,8 @@ function createCanvas() {
 function main(timestamp: number) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  gameState = systems.selectionItem(gameState);
+  const newGameState = systems.selectionItem(gameState);
+  gameState = { ...newGameState };
 
   systems.renderGrid(ctx, gameState);
   systems.render(ctx, gameState);
@@ -34,6 +35,9 @@ function init() {
 
   ctx = canvas.getContext('2d');
   gameState = core.initialGameState(canvas.width, canvas.height);
+
+  console.log(gameState.items);
+  console.log(gameState.gridItems);
 
   canvas.addEventListener(
     'touchstart',
@@ -73,11 +77,6 @@ function handleTouchMove(e: TouchEvent) {
     x: e.touches.item(0).clientX,
     y: e.touches.item(0).clientY,
   };
-
-  console.info({
-    x: e.touches.item(0).clientX,
-    y: e.touches.item(0).clientY,
-  });
 }
 
 function handleTouchEnd(e: TouchEvent) {

@@ -47,9 +47,9 @@ export function renderGrid(
     halfWindowHeight,
   );
 
-  for (let y = 0; y < MAX_COLUMNS; y += 1) {
-    for (let x = 0; x < MAX_COLUMNS; x += 1) {
-      const index = x + y * MAX_COLUMNS;
+  for (let x = 0; x < MAX_COLUMNS; x += 1) {
+    for (let y = 0; y < MAX_COLUMNS; y += 1) {
+      const index = y + x * MAX_COLUMNS;
       ctx.fillStyle = index % 2 ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.4)';
       roundRect(
         ctx,
@@ -74,17 +74,27 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
   for (let i = 0; i < GRID_SIZE; i += 1) {
     for (let j = 0; j < GRID_SIZE; j += 1) {
       const item = gameState.items[i][j];
-      const x = SCALE_NUMBER * j * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
-      const y = SCALE_NUMBER * i * tileHeight
+      const x = SCALE_NUMBER * i * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
+      const y = SCALE_NUMBER * j * tileHeight
         + halfWindowHeight
         - marginTop
         + SCALE_NUMBER * tileHeight;
 
       if (item.useAlpha) {
-        ctx.globalAlpha = 0.4;
+        ctx.globalAlpha = 0.6;
+      }
+
+      if (item.isSelected) {
+        ctx.shadowColor = '#fff';
+        ctx.shadowBlur = 15;
       }
 
       ctx.drawImage(tiles[item.id].image, x, y, tileWidth, tileHeight);
+
+      if (item.isSelected) {
+        ctx.shadowColor = '';
+        ctx.shadowBlur = 0;
+      }
 
       if (item.useAlpha) {
         ctx.globalAlpha = 1.0;

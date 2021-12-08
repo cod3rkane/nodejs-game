@@ -16,6 +16,8 @@ export function createBoard(start: number, end: number): Item[][] {
     matrix[i] = [];
   }
 
+  // @TODO: This logic is wrong, we need to fix it.
+  // we should render our items as Rows(X) and Columns(Y)
   for (let i = 0; i < GRID_SIZE; i += 1) {
     matrix[i][i] = ItemType.encode({
       id: generateRandomInteger(start, end),
@@ -55,8 +57,8 @@ export function createGridItems(
 
   for (let i = 0; i < GRID_SIZE; i += 1) {
     for (let j = 0; j < GRID_SIZE; j += 1) {
-      const x = SCALE_NUMBER * j * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
-      const y = SCALE_NUMBER * i * tileHeight
+      const x = SCALE_NUMBER * i * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
+      const y = SCALE_NUMBER * j * tileHeight
         + halfWindowHeight
         - marginTop
         + SCALE_NUMBER * tileHeight;
@@ -70,6 +72,10 @@ export function createGridItems(
           pos: {
             x,
             y,
+          },
+          maxPos: {
+            x: x + tileWidth,
+            y: y + tileHeight,
           },
         }),
       );

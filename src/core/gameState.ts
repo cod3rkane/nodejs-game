@@ -11,6 +11,7 @@ export const GameStateType = t.type({
   mousePos: Vec2Type,
   hasTouchEnd: t.boolean,
   items: t.array(t.array(ItemType)),
+  selectedItems: t.array(ItemType),
   gridItems: t.array(GridItemType),
 });
 
@@ -27,6 +28,7 @@ export function initialGameState(
     mousePos: { x: 0, y: 0 },
     hasTouchEnd: false,
     items: createBoard(0, 2),
+    selectedItems: [],
     gridItems: createGridItems(windowWidth, windowHeight),
   };
 }
