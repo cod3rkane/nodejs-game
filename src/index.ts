@@ -35,6 +35,14 @@ function init() {
   ctx = canvas.getContext('2d');
   gameState = core.initialGameState(canvas.width, canvas.height);
 
+  canvas.addEventListener(
+    'touchstart',
+    (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+    false,
+  );
   window.requestAnimationFrame(main);
 }
 
@@ -46,6 +54,9 @@ function resizeCanvas() {
 }
 
 function handleTouch(e: TouchEvent) {
+  e.preventDefault();
+  e.stopPropagation();
+
   if (e.touches.item(0)) {
     gameState.mousePos = {
       x: e.touches.item(0).clientX,
@@ -69,13 +80,27 @@ function handleTouchMove(e: TouchEvent) {
   });
 }
 
-function handleTouchEnd() {
+function handleTouchEnd(e: TouchEvent) {
+  e.preventDefault();
+  e.stopPropagation();
+
   gameState.hasTouchEnd = true;
 }
 
+function cleanEvents() {
+  window.removeEventListener('resize', resizeCanvas, false);
+  window.removeEventListener('touchstart', handleTouch, false);
+  window.removeEventListener('touchmove', handleTouchMove, false);
+  window.removeEventListener('touchend', handleTouchEnd, false);
+  window.removeEventListener('touchcancel', handleTouchEnd, false);
+}
+
 window.addEventListener('load', init, false);
+
 window.addEventListener('resize', resizeCanvas, false);
 window.addEventListener('touchstart', handleTouch, false);
 window.addEventListener('touchmove', handleTouchMove, false);
 window.addEventListener('touchend', handleTouchEnd, false);
 window.addEventListener('touchcancel', handleTouchEnd, false);
+
+window.addEventListener('unload', cleanEvents, false);
