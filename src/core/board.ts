@@ -1,3 +1,6 @@
+import { pipe } from 'fp-ts/function';
+import { mapWithIndex } from 'fp-ts/Array';
+
 import { MAX_COLUMNS, SCALE_NUMBER, useGridHelper } from '../utils';
 import { Item, ItemType } from '../components';
 import { GridItem, GridItemType } from './gridItem';
@@ -10,7 +13,7 @@ export function generateRandomInteger(start: number, end: number) {
 }
 
 export function createBoard(start: number, end: number): Item[][] {
-  const matrix = [];
+  const matrix: Array<Array<Item>> = [];
 
   for (let i = 0; i < GRID_SIZE; i += 1) {
     matrix[i] = [];
@@ -43,7 +46,11 @@ export function createBoard(start: number, end: number): Item[][] {
     }
   }
 
-  return matrix;
+  const fixGridPos = (row: number) => (i: number, e: Item): Item => ({ ...e, gridPos: { x: row, y: i } });
+  const goThroughItems = (i: number, e: Item[]) => pipe(e, mapWithIndex(fixGridPos(i)));
+  const formatMatrix = pipe(mapWithIndex(goThroughItems));
+
+  return formatMatrix(matrix);
 }
 
 export function createGridItems(

@@ -52,10 +52,17 @@ export function selectionItem(gameState: GameState): GameState {
             && gridItem.gridPos.y === e.gridPos.y,
         );
 
-        if (item && !gameState.selectedItems.includes(item)) {
+        if (
+          item
+          && !newGameState.selectedItems.find(
+            (e) => e.gridPos.x === item.gridPos.x && e.gridPos.y === item.gridPos.y,
+          )
+        ) {
           item.isSelected = true;
           newGameState.selectedItems.push(item);
           newGameState.items[item.gridPos.x][item.gridPos.y] = item;
+
+          console.log(newGameState.selectedItems, 'newGameState.selectedItems');
         }
       }
     }

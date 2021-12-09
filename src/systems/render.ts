@@ -91,6 +91,12 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
 
       ctx.drawImage(tiles[item.id].image, x, y, tileWidth, tileHeight);
 
+      if (false) {
+        ctx.font = '48px comic-sans';
+        ctx.fillStyle = '#fff';
+        ctx.fillText(`(${item.gridPos.x}, ${item.gridPos.y})`, x, y + (tileHeight / 1.8));
+      }
+
       if (item.isSelected) {
         ctx.shadowColor = '';
         ctx.shadowBlur = 0;
