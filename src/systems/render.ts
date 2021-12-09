@@ -85,8 +85,10 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
       }
 
       if (item.isSelected) {
-        ctx.shadowColor = '#fff';
-        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#FFF';
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowBlur = 60;
       }
 
       ctx.drawImage(tiles[item.id].image, x, y, tileWidth, tileHeight);

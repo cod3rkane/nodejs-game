@@ -2,9 +2,9 @@ import { GameState } from '../core';
 import { Item } from '../components/item';
 
 export function selectionItem(gameState: GameState): GameState {
-  const newGameState = gameState;
+  const newGameState = { ...gameState };
 
-  if (!gameState.hasTouchEnd) {
+  if (!newGameState.hasTouchEnd) {
     const gridItem = gameState.gridItems.find(
       (e) => gameState.mousePos.x >= e.pos.x
         && gameState.mousePos.x <= e.maxPos.x
@@ -16,11 +16,13 @@ export function selectionItem(gameState: GameState): GameState {
       if (gameState.selectedItems.length === 0) {
         // first move with no selected items whatsoever.
         const item = gameState.items[gridItem.gridPos.x][gridItem.gridPos.y];
+        item.isSelected = true;
         newGameState.items = gameState.items.map((row) => row.map((e: Item) => ({
           ...e,
           useAlpha: e.id !== item.id,
           isSelected:
-              e.gridPos.x === item.gridPos.x && e.gridPos.y === item.gridPos.y,
+              e.gridPos.x === gridItem.gridPos.x
+              && e.gridPos.y === gridItem.gridPos.y,
         })));
         newGameState.selectedItems.push(item);
       } else {
@@ -61,6 +63,24 @@ export function selectionItem(gameState: GameState): GameState {
           item.isSelected = true;
           newGameState.selectedItems.push(item);
           newGameState.items[item.gridPos.x][item.gridPos.y] = item;
+        } else if (newGameState.selectedItems.length >= 2) {
+          // we're at a grid we already have selected.
+          // let's verify if the user wants to go back and re-do the track.
+
+          // console.log(newGameState.selectedItems);
+
+          // Gets the last but one.
+          const lastSelectedGrid = newGameState.selectedItems[newGameState.selectedItems.length - 2];
+
+          if (
+            lastSelectedGrid.gridPos.x === gridItem.gridPos.x
+            && lastSelectedGrid.gridPos.y === gridItem.gridPos.y
+          ) {
+            const removedItem = newGameState.selectedItems.pop();
+            newGameState.items[removedItem.gridPos.x][
+              removedItem.gridPos.y
+            ].isSelected = false;
+          }
         }
       }
     }
