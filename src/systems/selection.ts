@@ -61,8 +61,6 @@ export function selectionItem(gameState: GameState): GameState {
           item.isSelected = true;
           newGameState.selectedItems.push(item);
           newGameState.items[item.gridPos.x][item.gridPos.y] = item;
-
-          console.log(newGameState.selectedItems, 'newGameState.selectedItems');
         }
       }
     }
