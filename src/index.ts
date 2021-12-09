@@ -24,6 +24,7 @@ function main(timestamp: number) {
 
   systems.renderGrid(ctx, gameState);
   systems.render(ctx, gameState);
+  systems.ui(ctx, gameState);
 
   window.requestAnimationFrame(main);
 }

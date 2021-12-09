@@ -70,7 +70,8 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
 
   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
   ctx.fillRect(0, 0, gameState.windowWidth, gameState.windowHeight / 2);
-
+  
+  // render grid items.
   for (let i = 0; i < GRID_SIZE; i += 1) {
     for (let j = 0; j < GRID_SIZE; j += 1) {
       const item = gameState.items[i][j];
@@ -109,6 +110,8 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
       }
     }
   }
+
+  
 }
 
 export default render;
