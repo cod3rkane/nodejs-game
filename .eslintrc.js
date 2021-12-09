@@ -31,5 +31,8 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'max-len': {
+      code: 120,
+    },
   },
 };
