@@ -11,6 +11,7 @@
 /dist/*
 /node_modules/*
 .yarn/*
+.yarnrc.yml
 
 # Logs
 logs
