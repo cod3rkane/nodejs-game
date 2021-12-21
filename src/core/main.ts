@@ -11,7 +11,7 @@ export class Application {
 
     document.body.appendChild(this.canvas);
 
-    this.ctx = this.canvas.getContext('2d');
+    this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     this.gameState = core.initialGameState(
       this.canvas.width,
       this.canvas.height

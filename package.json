@@ -2,6 +2,10 @@
   "name": "juiceworld",
   "packageManager": "yarn@3.1.0",
   "private": true,
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache --fix",
+    "*.{ts,tsx,md}": "prettier --write"
+  },
   "scripts": {
     "start": "webpack serve --open",
     "build": "webpack",
