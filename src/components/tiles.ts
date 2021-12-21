@@ -8,7 +8,12 @@ import grass from '../resources/grass.jpg';
 
 export const TileType = t.type({
   id: t.number,
+  score: t.number,
 });
+
+export type Tile = t.TypeOf<typeof TileType> & {
+  image: HTMLImageElement;
+};
 
 function getImageFromFile(img: any): HTMLImageElement {
   const image = new Image();
@@ -17,27 +22,32 @@ function getImageFromFile(img: any): HTMLImageElement {
   return image;
 }
 
-export const tiles = [
+export const tiles: Tile[] = [
   {
     id: 0,
     image: getImageFromFile(grape),
+    score: 10,
   },
   {
     id: 1,
     image: getImageFromFile(avocado),
+    score: 20,
   },
   {
     id: 2,
     image: getImageFromFile(watermelon),
+    score: 10,
   },
   {
     id: 3,
     image: getImageFromFile(soil),
+    score: 0,
   },
   {
     id: 4,
     image: getImageFromFile(grass),
+    score: 0,
   },
-] as const;
+];
 
 export default tiles;

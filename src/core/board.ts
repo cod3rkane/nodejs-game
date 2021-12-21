@@ -2,7 +2,7 @@ import { pipe } from 'fp-ts/function';
 import { mapWithIndex } from 'fp-ts/Array';
 
 import { MAX_COLUMNS, SCALE_NUMBER, useGridHelper } from '../utils';
-import { Item, ItemType } from '../components';
+import { Item, ItemType, tiles } from '../components';
 import { GridItem, GridItemType } from './gridItem';
 
 // Removes the 2 extras columns and rows.
@@ -22,8 +22,10 @@ export function createBoard(start: number, end: number): Item[][] {
   // @TODO: This logic is wrong, we need to fix it.
   // we should render our items as Rows(X) and Columns(Y)
   for (let i = 0; i < GRID_SIZE; i += 1) {
+    const firstId = generateRandomInteger(start, end);
     matrix[i][i] = ItemType.encode({
-      id: generateRandomInteger(start, end),
+      id: firstId,
+      score: tiles[firstId].score,
       isSelected: false,
       useAlpha: false,
       gridPos: {
@@ -33,8 +35,10 @@ export function createBoard(start: number, end: number): Item[][] {
     });
 
     for (let j = i + 1; j < GRID_SIZE; j += 1) {
+      const secondId = generateRandomInteger(start, end);
       matrix[i][j] = ItemType.encode({
-        id: generateRandomInteger(start, end),
+        id: secondId,
+        score: tiles[secondId].score,
         isSelected: false,
         useAlpha: false,
         gridPos: {

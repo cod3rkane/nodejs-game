@@ -1,5 +1,9 @@
+import { pipe } from 'fp-ts/lib/function';
+import { last } from 'fp-ts/lib/Array';
+import * as O from 'fp-ts/lib/Option';
+
 import { GameState } from '../core';
-import { Item } from '../components/item';
+import { Item, ItemType } from '../components/item';
 
 export function selectionItem(gameState: GameState): GameState {
   const newGameState = { ...gameState };
@@ -30,7 +34,22 @@ export function selectionItem(gameState: GameState): GameState {
         newGameState.selectedItems.push(item);
       } else {
         // we can only select the adjacents from the last selected item and the same type.
-        const lastSelectedItem: Item = [...gameState.selectedItems].pop();
+        const lastSelectedItem: Item = pipe(
+          gameState.selectedItems,
+          last,
+          O.getOrElse(() =>
+            ItemType.encode({
+              id: 0,
+              score: 0,
+              isSelected: false,
+              useAlpha: false,
+              gridPos: {
+                x: 0,
+                y: 0,
+              },
+            })
+          )
+        );
         const adjacents: Item[] = [];
 
         // creates adjacents list
@@ -82,7 +101,22 @@ export function selectionItem(gameState: GameState): GameState {
             lastSelectedGrid.gridPos.x === gridItem.gridPos.x &&
             lastSelectedGrid.gridPos.y === gridItem.gridPos.y
           ) {
-            const removedItem = newGameState.selectedItems.pop();
+            const removedItem: Item = pipe(
+              newGameState.selectedItems,
+              last,
+              O.getOrElse(() =>
+                ItemType.encode({
+                  id: 0,
+                  score: 0,
+                  isSelected: false,
+                  useAlpha: false,
+                  gridPos: {
+                    x: 0,
+                    y: 0,
+                  },
+                })
+              )
+            );
             newGameState.items[removedItem.gridPos.x][
               removedItem.gridPos.y
             ].isSelected = false;

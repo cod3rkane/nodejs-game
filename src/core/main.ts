@@ -1,3 +1,6 @@
+import { pipe } from 'fp-ts/lib/function';
+import * as O from 'fp-ts/lib/Option';
+
 import * as systems from '../systems';
 import * as core from '../core';
 
@@ -64,22 +67,36 @@ export class Application {
     e.preventDefault();
     e.stopPropagation();
 
-    if (e.touches.item(0)) {
-      this.gameState.mousePos = {
-        x: e.touches.item(0).clientX,
-        y: e.touches.item(0).clientY,
-      };
-    }
+    pipe(
+      O.fromNullable(e.touches.item(0)),
+      O.fold(
+        () => null,
+        (touch: Touch) => {
+          this.gameState.mousePos = {
+            x: touch.clientX,
+            y: touch.clientY,
+          };
+        }
+      )
+    );
   }
 
   handleTouchMove(e: TouchEvent) {
     e.preventDefault();
     e.stopPropagation();
 
-    this.gameState.mousePos = {
-      x: e.touches.item(0).clientX,
-      y: e.touches.item(0).clientY,
-    };
+    pipe(
+      O.fromNullable(e.touches.item(0)),
+      O.fold(
+        () => null,
+        (touch: Touch) => {
+          this.gameState.mousePos = {
+            x: touch.clientX,
+            y: touch.clientY,
+          };
+        }
+      )
+    );
   }
 
   handleTouchEnd(e: TouchEvent) {
