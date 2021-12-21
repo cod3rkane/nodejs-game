@@ -46,8 +46,11 @@ export function createBoard(start: number, end: number): Item[][] {
     }
   }
 
-  const fixGridPos = (row: number) => (i: number, e: Item): Item => ({ ...e, gridPos: { x: row, y: i } });
-  const goThroughItems = (i: number, e: Item[]) => pipe(e, mapWithIndex(fixGridPos(i)));
+  const fixGridPos =
+    (row: number) =>
+    (i: number, e: Item): Item => ({ ...e, gridPos: { x: row, y: i } });
+  const goThroughItems = (i: number, e: Item[]) =>
+    pipe(e, mapWithIndex(fixGridPos(i)));
   const formatMatrix = pipe(mapWithIndex(goThroughItems));
 
   return formatMatrix(matrix);
@@ -55,20 +58,21 @@ export function createBoard(start: number, end: number): Item[][] {
 
 export function createGridItems(
   windowWidth: number,
-  windowHeight: number,
+  windowHeight: number
 ): GridItem[] {
   const items: GridItem[] = [];
-  const {
-    halfWindowHeight, tileWidth, tileHeight, marginTop, marginLeft,
-  } = useGridHelper(windowWidth, windowHeight);
+  const { halfWindowHeight, tileWidth, tileHeight, marginTop, marginLeft } =
+    useGridHelper(windowWidth, windowHeight);
 
   for (let i = 0; i < GRID_SIZE; i += 1) {
     for (let j = 0; j < GRID_SIZE; j += 1) {
-      const x = SCALE_NUMBER * i * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
-      const y = SCALE_NUMBER * j * tileHeight
-        + halfWindowHeight
-        - marginTop
-        + SCALE_NUMBER * tileHeight;
+      const x =
+        SCALE_NUMBER * i * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
+      const y =
+        SCALE_NUMBER * j * tileHeight +
+        halfWindowHeight -
+        marginTop +
+        SCALE_NUMBER * tileHeight;
 
       items.push(
         GridItemType.encode({
@@ -84,7 +88,7 @@ export function createGridItems(
             x: x + tileWidth,
             y: y + tileHeight,
           },
-        }),
+        })
       );
     }
   }

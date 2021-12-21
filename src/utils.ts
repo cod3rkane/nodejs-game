@@ -15,7 +15,7 @@ export type GridHelper = t.TypeOf<typeof GridHelperType>;
 
 export function useGridHelper(
   windowWidth: number,
-  windowHeight: number,
+  windowHeight: number
 ): GridHelper {
   const halfWindowHeight: number = windowHeight / 2;
   const tileWidth = (windowWidth / MAX_COLUMNS) * 1.1;

@@ -14,7 +14,7 @@ export const MAP_01 = '0123321032112321230124462323997012397212320123123';
 export function getTileFromSeedByGridNumber(
   seed: number,
   grid: number,
-  cb: (tile: HTMLImageElement) => void,
+  cb: (tile: HTMLImageElement) => void
 ) {
   switch (seed) {
     case 0:

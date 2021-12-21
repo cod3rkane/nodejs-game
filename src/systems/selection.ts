@@ -6,10 +6,11 @@ export function selectionItem(gameState: GameState): GameState {
 
   if (!newGameState.hasTouchEnd) {
     const gridItem = gameState.gridItems.find(
-      (e) => gameState.mousePos.x >= e.pos.x
-        && gameState.mousePos.x <= e.maxPos.x
-        && gameState.mousePos.y >= e.pos.y
-        && gameState.mousePos.y <= e.maxPos.y,
+      (e) =>
+        gameState.mousePos.x >= e.pos.x &&
+        gameState.mousePos.x <= e.maxPos.x &&
+        gameState.mousePos.y >= e.pos.y &&
+        gameState.mousePos.y <= e.maxPos.y
     );
 
     if (gridItem) {
@@ -17,13 +18,15 @@ export function selectionItem(gameState: GameState): GameState {
         // first move with no selected items whatsoever.
         const item = gameState.items[gridItem.gridPos.x][gridItem.gridPos.y];
         item.isSelected = true;
-        newGameState.items = gameState.items.map((row) => row.map((e: Item) => ({
-          ...e,
-          useAlpha: e.id !== item.id,
-          isSelected:
-              e.gridPos.x === gridItem.gridPos.x
-              && e.gridPos.y === gridItem.gridPos.y,
-        })));
+        newGameState.items = gameState.items.map((row) =>
+          row.map((e: Item) => ({
+            ...e,
+            useAlpha: e.id !== item.id,
+            isSelected:
+              e.gridPos.x === gridItem.gridPos.x &&
+              e.gridPos.y === gridItem.gridPos.y,
+          }))
+        );
         newGameState.selectedItems.push(item);
       } else {
         // we can only select the adjacents from the last selected item and the same type.
@@ -50,14 +53,16 @@ export function selectionItem(gameState: GameState): GameState {
         }
 
         const item = adjacents.find(
-          (e: Item) => gridItem.gridPos.x === e.gridPos.x
-            && gridItem.gridPos.y === e.gridPos.y,
+          (e: Item) =>
+            gridItem.gridPos.x === e.gridPos.x &&
+            gridItem.gridPos.y === e.gridPos.y
         );
 
         if (
-          item
-          && !newGameState.selectedItems.find(
-            (e) => e.gridPos.x === item.gridPos.x && e.gridPos.y === item.gridPos.y,
+          item &&
+          !newGameState.selectedItems.find(
+            (e) =>
+              e.gridPos.x === item.gridPos.x && e.gridPos.y === item.gridPos.y
           )
         ) {
           item.isSelected = true;
@@ -70,11 +75,12 @@ export function selectionItem(gameState: GameState): GameState {
           // console.log(newGameState.selectedItems);
 
           // Gets the last but one.
-          const lastSelectedGrid = newGameState.selectedItems[newGameState.selectedItems.length - 2];
+          const lastSelectedGrid =
+            newGameState.selectedItems[newGameState.selectedItems.length - 2];
 
           if (
-            lastSelectedGrid.gridPos.x === gridItem.gridPos.x
-            && lastSelectedGrid.gridPos.y === gridItem.gridPos.y
+            lastSelectedGrid.gridPos.x === gridItem.gridPos.x &&
+            lastSelectedGrid.gridPos.y === gridItem.gridPos.y
           ) {
             const removedItem = newGameState.selectedItems.pop();
             newGameState.items[removedItem.gridPos.x][
@@ -87,11 +93,13 @@ export function selectionItem(gameState: GameState): GameState {
   }
 
   if (gameState.hasTouchEnd) {
-    newGameState.items = gameState.items.map((row) => row.map((e: Item) => ({
-      ...e,
-      useAlpha: false,
-      isSelected: false,
-    })));
+    newGameState.items = gameState.items.map((row) =>
+      row.map((e: Item) => ({
+        ...e,
+        useAlpha: false,
+        isSelected: false,
+      }))
+    );
 
     newGameState.mousePos = { x: 0, y: 0 };
     newGameState.selectedItems = [];

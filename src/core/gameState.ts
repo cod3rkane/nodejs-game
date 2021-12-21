@@ -19,7 +19,7 @@ export type GameState = t.TypeOf<typeof GameStateType>;
 
 export function initialGameState(
   windowWidth: number,
-  windowHeight: number,
+  windowHeight: number
 ): GameState {
   return {
     score: 0,

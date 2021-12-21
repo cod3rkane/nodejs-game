@@ -1,11 +1,19 @@
-import { GameState } from "../core";
+import { GameState } from '../core';
 
 export function ui(ctx: CanvasRenderingContext2D, gameState: GameState) {
   const xOffset = gameState.windowWidth / 4;
   const yOffset = gameState.windowHeight / 4;
   ctx.font = '68px comic-sans';
-  ctx.fillStyle = '#fff';
+  ctx.fillStyle = '#bf2d2d';
   ctx.fillText('Score UI HERE', xOffset, yOffset);
+
+  ctx.font = '68px comic-sans';
+  ctx.fillStyle = '#fff';
+  ctx.fillText(
+    `Score: ${gameState.score}`,
+    xOffset,
+    gameState.windowHeight / 2 - 50
+  );
   // ctx.beginPath();
   // ctx.moveTo(0, 0);
   // ctx.arcTo(102, 0, 102, 100 , 20);

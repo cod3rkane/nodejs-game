@@ -11,7 +11,7 @@ function roundRect(
   y: number,
   width: number,
   height: number,
-  radius: number,
+  radius: number
 ) {
   let internalRadius = radius;
 
@@ -30,11 +30,10 @@ function roundRect(
 
 export function renderGrid(
   ctx: CanvasRenderingContext2D,
-  gameState: GameState,
+  gameState: GameState
 ) {
-  const {
-    halfWindowHeight, tileWidth, tileHeight, marginTop, marginLeft,
-  } = useGridHelper(gameState.windowWidth, gameState.windowHeight);
+  const { halfWindowHeight, tileWidth, tileHeight, marginTop, marginLeft } =
+    useGridHelper(gameState.windowWidth, gameState.windowHeight);
 
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
@@ -44,7 +43,7 @@ export function renderGrid(
     0,
     gameState.windowHeight - halfWindowHeight,
     gameState.windowWidth,
-    halfWindowHeight,
+    halfWindowHeight
   );
 
   for (let x = 0; x < MAX_COLUMNS; x += 1) {
@@ -57,29 +56,30 @@ export function renderGrid(
         SCALE_NUMBER * y * tileHeight + halfWindowHeight - marginTop,
         tileWidth,
         tileHeight,
-        12,
+        12
       );
     }
   }
 }
 
 export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
-  const {
-    halfWindowHeight, tileWidth, tileHeight, marginTop, marginLeft,
-  } = useGridHelper(gameState.windowWidth, gameState.windowHeight);
+  const { halfWindowHeight, tileWidth, tileHeight, marginTop, marginLeft } =
+    useGridHelper(gameState.windowWidth, gameState.windowHeight);
 
   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
   ctx.fillRect(0, 0, gameState.windowWidth, gameState.windowHeight / 2);
-  
+
   // render grid items.
   for (let i = 0; i < GRID_SIZE; i += 1) {
     for (let j = 0; j < GRID_SIZE; j += 1) {
       const item = gameState.items[i][j];
-      const x = SCALE_NUMBER * i * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
-      const y = SCALE_NUMBER * j * tileHeight
-        + halfWindowHeight
-        - marginTop
-        + SCALE_NUMBER * tileHeight;
+      const x =
+        SCALE_NUMBER * i * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
+      const y =
+        SCALE_NUMBER * j * tileHeight +
+        halfWindowHeight -
+        marginTop +
+        SCALE_NUMBER * tileHeight;
 
       if (item.useAlpha) {
         ctx.globalAlpha = 0.6;
@@ -97,7 +97,11 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
       if (false) {
         ctx.font = '48px comic-sans';
         ctx.fillStyle = '#fff';
-        ctx.fillText(`(${item.gridPos.x}, ${item.gridPos.y})`, x, y + (tileHeight / 1.8));
+        ctx.fillText(
+          `(${item.gridPos.x}, ${item.gridPos.y})`,
+          x,
+          y + tileHeight / 1.8
+        );
       }
 
       if (item.isSelected) {
@@ -110,8 +114,6 @@ export function render(ctx: CanvasRenderingContext2D, gameState: GameState) {
       }
     }
   }
-
-  
 }
 
 export default render;

@@ -1,5 +1,5 @@
-import * as systems from "../systems";
-import * as core from "../core";
+import * as systems from '../systems';
+import * as core from '../core';
 
 export class Application {
   canvas: HTMLCanvasElement;
@@ -11,7 +11,7 @@ export class Application {
 
     document.body.appendChild(this.canvas);
 
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext('2d');
     this.gameState = core.initialGameState(
       this.canvas.width,
       this.canvas.height
@@ -21,7 +21,7 @@ export class Application {
     console.log(this.gameState.gridItems);
 
     this.canvas.addEventListener(
-      "touchstart",
+      'touchstart',
       (e: TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
@@ -45,7 +45,7 @@ export class Application {
   }
 
   createCanvas(): HTMLCanvasElement {
-    const el = document.getElementById("canvas") as HTMLCanvasElement;
+    const el = document.getElementById('canvas') as HTMLCanvasElement;
 
     el.width = window.innerWidth;
     el.height = window.innerHeight;
@@ -90,44 +90,44 @@ export class Application {
   }
 
   setUpEvents() {
-    window.addEventListener("load", this.init.bind(this), false);
+    window.addEventListener('load', this.init.bind(this), false);
 
-    window.addEventListener("resize", this.resizeCanvas.bind(this), false);
-    window.addEventListener("touchstart", this.handleTouch.bind(this), false);
+    window.addEventListener('resize', this.resizeCanvas.bind(this), false);
+    window.addEventListener('touchstart', this.handleTouch.bind(this), false);
     window.addEventListener(
-      "touchmove",
+      'touchmove',
       this.handleTouchMove.bind(this),
       false
     );
-    window.addEventListener("touchend", this.handleTouchEnd.bind(this), false);
+    window.addEventListener('touchend', this.handleTouchEnd.bind(this), false);
     window.addEventListener(
-      "touchcancel",
+      'touchcancel',
       this.handleTouchEnd.bind(this),
       false
     );
 
-    window.addEventListener("unload", this.cleanEvents.bind(this), false);
+    window.addEventListener('unload', this.cleanEvents.bind(this), false);
   }
 
   cleanEvents() {
-    window.removeEventListener("resize", this.resizeCanvas.bind(this), false);
+    window.removeEventListener('resize', this.resizeCanvas.bind(this), false);
     window.removeEventListener(
-      "touchstart",
+      'touchstart',
       this.handleTouch.bind(this),
       false
     );
     window.removeEventListener(
-      "touchmove",
+      'touchmove',
       this.handleTouchMove.bind(this),
       false
     );
     window.removeEventListener(
-      "touchend",
+      'touchend',
       this.handleTouchEnd.bind(this),
       false
     );
     window.removeEventListener(
-      "touchcancel",
+      'touchcancel',
       this.handleTouchEnd.bind(this),
       false
     );

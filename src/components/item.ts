@@ -7,6 +7,7 @@ export const ItemType = t.type({
   isSelected: t.boolean,
   gridPos: Vec2Type,
   useAlpha: t.boolean,
+  score: t.number,
 });
 
 export type Item = t.TypeOf<typeof ItemType>;

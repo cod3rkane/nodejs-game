@@ -1,8 +1,14 @@
+import * as t from 'io-ts';
+
 import grape from '../resources/grapes.svg';
 import avocado from '../resources/avocado.png';
 import watermelon from '../resources/watermelon.svg';
 import soil from '../resources/soil.jpg';
 import grass from '../resources/grass.jpg';
+
+export const TileType = t.type({
+  id: t.number,
+});
 
 function getImageFromFile(img: any): HTMLImageElement {
   const image = new Image();
