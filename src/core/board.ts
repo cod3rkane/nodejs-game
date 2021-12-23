@@ -32,6 +32,10 @@ export function createBoard(start: number, end: number): Item[][] {
         x: i,
         y: i,
       },
+      pos: {
+        x: 0,
+        y: 0,
+      },
     });
 
     for (let j = i + 1; j < GRID_SIZE; j += 1) {
@@ -44,6 +48,10 @@ export function createBoard(start: number, end: number): Item[][] {
         gridPos: {
           x: i,
           y: j,
+        },
+        pos: {
+          x: 0,
+          y: 0,
         },
       });
       matrix[j][i] = matrix[i][j];
