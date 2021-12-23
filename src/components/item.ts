@@ -8,6 +8,7 @@ export const ItemType = t.type({
   gridPos: Vec2Type,
   useAlpha: t.boolean,
   score: t.number,
+  pos: Vec2Type,
 });
 
 export type Item = t.TypeOf<typeof ItemType>;
