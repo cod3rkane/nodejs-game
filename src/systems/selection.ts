@@ -1,12 +1,20 @@
 import { pipe } from 'fp-ts/lib/function';
 import { last } from 'fp-ts/lib/Array';
 import * as O from 'fp-ts/lib/Option';
+import * as A from 'fp-ts/Array';
 
 import { GameState } from '../core';
 import { Item, ItemType } from '../components/item';
+import { CLEAN_SELECTED_ITEMS_STATE, INITIAL_STATE } from '../components/state';
 
 export function selectionItem(gameState: GameState): GameState {
+  const isCleanSelectedItemsState = pipe(
+    gameState.animationState,
+    O.exists((e) => e.type === CLEAN_SELECTED_ITEMS_STATE)
+  );
   const newGameState = { ...gameState };
+
+  if (isCleanSelectedItemsState) return newGameState;
 
   if (!newGameState.hasTouchEnd) {
     const gridItem = gameState.gridItems.find(
@@ -44,6 +52,10 @@ export function selectionItem(gameState: GameState): GameState {
               isSelected: false,
               useAlpha: false,
               gridPos: {
+                x: 0,
+                y: 0,
+              },
+              pos: {
                 x: 0,
                 y: 0,
               },
@@ -91,8 +103,6 @@ export function selectionItem(gameState: GameState): GameState {
           // we're at a grid we already have selected.
           // let's verify if the user wants to go back and re-do the track.
 
-          // console.log(newGameState.selectedItems);
-
           // Gets the last but one.
           const lastSelectedGrid =
             newGameState.selectedItems[newGameState.selectedItems.length - 2];
@@ -114,6 +124,10 @@ export function selectionItem(gameState: GameState): GameState {
                     x: 0,
                     y: 0,
                   },
+                  pos: {
+                    x: 0,
+                    y: 0,
+                  },
                 })
               )
             );
@@ -127,17 +141,55 @@ export function selectionItem(gameState: GameState): GameState {
   }
 
   if (gameState.hasTouchEnd) {
-    newGameState.items = gameState.items.map((row) =>
-      row.map((e: Item) => ({
-        ...e,
-        useAlpha: false,
-        isSelected: false,
-      }))
+    // collects the points and sets the animation state
+    const selectedItems = pipe(
+      newGameState.selectedItems,
+      A.filter((a) => a.isSelected)
     );
 
-    newGameState.mousePos = { x: 0, y: 0 };
-    newGameState.selectedItems = [];
-    newGameState.hasTouchEnd = false;
+    if (selectedItems.length >= 3) {
+      const score = pipe(
+        selectedItems,
+        A.reduce(0, (acc: number, cv: Item) => acc + cv.score)
+      );
+
+      newGameState.score += score;
+      newGameState.items = pipe(
+        gameState.items,
+        A.map(
+          pipe(
+            A.map((item: Item) => ({
+              ...item,
+              useAlpha: true,
+            }))
+          )
+        )
+      );
+      newGameState.animationState = O.some({
+        type: CLEAN_SELECTED_ITEMS_STATE,
+      });
+    } else {
+      // resets game state to original.
+      newGameState.items = gameState.items.map((row) =>
+        row.map((e: Item) => ({
+          ...e,
+          useAlpha: false,
+          isSelected: false,
+        }))
+      );
+      newGameState.mousePos = { x: 0, y: 0 };
+
+      const isInitialState = pipe(
+        gameState.animationState,
+        O.exists((state) => state.type === INITIAL_STATE)
+      );
+
+      if (isInitialState) {
+        newGameState.selectedItems = [];
+      }
+
+      newGameState.hasTouchEnd = false;
+    }
   }
 
   return newGameState;
