@@ -37,11 +37,10 @@ export class Application {
   main(timestamp: number) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const newGameState = systems.selectionItem(this.gameState);
-    this.gameState = { ...newGameState };
+    this.gameState = { ...systems.selectionItem(this.gameState) };
 
     systems.renderGrid(this.ctx, this.gameState);
-    systems.render(this.ctx, this.gameState);
+    systems.render(this.ctx, this.gameState, timestamp);
     systems.ui(this.ctx, this.gameState);
 
     window.requestAnimationFrame(this.main.bind(this));
