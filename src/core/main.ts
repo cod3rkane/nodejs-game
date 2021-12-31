@@ -8,6 +8,7 @@ export class Application {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   gameState: core.GameState;
+  lastTime: number;
 
   init() {
     this.canvas = this.createCanvas();
@@ -31,19 +32,29 @@ export class Application {
       },
       false
     );
-    window.requestAnimationFrame(this.main.bind(this));
+    this.lastTime = new Date().getTime();
+
+    window.requestAnimationFrame(this.animateFrame.bind(this));
   }
 
-  main(timestamp: number) {
+  main() {
+    const deltatime = (new Date().getTime() - this.lastTime) / 1000; // time elapsed in seconds since last call
+    this.lastTime = new Date().getTime(); // reset last time
+
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.gameState = { ...systems.selectionItem(this.gameState) };
-
     systems.renderGrid(this.ctx, this.gameState);
-    systems.render(this.ctx, this.gameState, timestamp);
-    systems.ui(this.ctx, this.gameState);
+    systems.render(this.ctx, this.gameState, deltatime);
+    systems.animation(this.ctx, this.gameState, deltatime);
+    systems.ui(this.ctx, this.gameState, deltatime);
+  }
 
-    window.requestAnimationFrame(this.main.bind(this));
+  animateFrame() {
+    setTimeout(() => {
+      this.main();
+      window.requestAnimationFrame(this.animateFrame.bind(this));
+    }, 1000 / 60);
   }
 
   createCanvas(): HTMLCanvasElement {

@@ -1,5 +1,7 @@
 import * as t from 'io-ts';
 
+import { Vec2 } from './components';
+
 export const MAX_COLUMNS = 9 as const;
 export const SCALE_NUMBER = 1.04 as const;
 
@@ -33,4 +35,22 @@ export function useGridHelper(
     marginTop,
     marginLeft,
   });
+}
+
+export function getItemPosFromGridPos(
+  pos: Vec2,
+  windowWidth: number,
+  windowHeight: number
+): Vec2 {
+  const { tileWidth, tileHeight, marginLeft, marginTop, halfWindowHeight } =
+    useGridHelper(windowWidth, windowHeight);
+  const x =
+    SCALE_NUMBER * pos.x * tileWidth - marginLeft + SCALE_NUMBER * tileWidth;
+  const y =
+    SCALE_NUMBER * pos.y * tileHeight +
+    halfWindowHeight -
+    marginTop +
+    SCALE_NUMBER * tileHeight;
+
+  return { x, y };
 }

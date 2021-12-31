@@ -4,7 +4,12 @@ import * as O from 'fp-ts/lib/Option';
 import * as A from 'fp-ts/Array';
 
 import { GameState } from '../core';
-import { Item, ItemType } from '../components/item';
+import {
+  CLEANING_FROM_BOARD_ITEM_STATE,
+  INITIAL_ITEM_STATE,
+  Item,
+  ItemType,
+} from '../components/item';
 import { CLEAN_SELECTED_ITEMS_STATE, INITIAL_STATE } from '../components/state';
 
 export function selectionItem(gameState: GameState): GameState {
@@ -59,6 +64,7 @@ export function selectionItem(gameState: GameState): GameState {
                 x: 0,
                 y: 0,
               },
+              state: INITIAL_ITEM_STATE,
             })
           )
         );
@@ -128,6 +134,7 @@ export function selectionItem(gameState: GameState): GameState {
                     x: 0,
                     y: 0,
                   },
+                  state: INITIAL_ITEM_STATE,
                 })
               )
             );
@@ -161,6 +168,9 @@ export function selectionItem(gameState: GameState): GameState {
             A.map((item: Item) => ({
               ...item,
               useAlpha: true,
+              state: item.isSelected
+                ? CLEANING_FROM_BOARD_ITEM_STATE
+                : INITIAL_ITEM_STATE,
             }))
           )
         )
@@ -175,6 +185,10 @@ export function selectionItem(gameState: GameState): GameState {
           ...e,
           useAlpha: false,
           isSelected: false,
+          pos: {
+            x: 0,
+            y: 0,
+          },
         }))
       );
       newGameState.mousePos = { x: 0, y: 0 };

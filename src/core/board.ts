@@ -2,7 +2,7 @@ import { pipe } from 'fp-ts/function';
 import { mapWithIndex } from 'fp-ts/Array';
 
 import { MAX_COLUMNS, SCALE_NUMBER, useGridHelper } from '../utils';
-import { Item, ItemType, tiles } from '../components';
+import { INITIAL_ITEM_STATE, Item, ItemType, tiles } from '../components';
 import { GridItem, GridItemType } from './gridItem';
 
 // Removes the 2 extras columns and rows.
@@ -36,6 +36,7 @@ export function createBoard(start: number, end: number): Item[][] {
         x: 0,
         y: 0,
       },
+      state: INITIAL_ITEM_STATE,
     });
 
     for (let j = i + 1; j < GRID_SIZE; j += 1) {
@@ -53,6 +54,7 @@ export function createBoard(start: number, end: number): Item[][] {
           x: 0,
           y: 0,
         },
+        state: INITIAL_ITEM_STATE,
       });
       matrix[j][i] = matrix[i][j];
     }

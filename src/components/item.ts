@@ -1,6 +1,11 @@
+import { pipe } from 'fp-ts/lib/function';
 import * as t from 'io-ts';
 
 import { Vec2Type } from './vec';
+
+export const INITIAL_ITEM_STATE = 'INITIAL_ITEM_STATE' as const;
+export const CLEANING_FROM_BOARD_ITEM_STATE =
+  'CLEANING_FROM_BOARD_ITEM_STATE' as const;
 
 export const ItemType = t.type({
   id: t.number,
@@ -9,6 +14,17 @@ export const ItemType = t.type({
   useAlpha: t.boolean,
   score: t.number,
   pos: Vec2Type,
+  state: t.union([
+    t.literal(INITIAL_ITEM_STATE),
+    t.literal(CLEANING_FROM_BOARD_ITEM_STATE),
+  ]),
 });
-
 export type Item = t.TypeOf<typeof ItemType>;
+
+export const itemWithIndex = t.intersection([
+  ItemType,
+  t.type({
+    index: t.number,
+  }),
+]);
+export type ItemWithIndex = t.TypeOf<typeof itemWithIndex>;
