@@ -31,7 +31,7 @@ export function initialGameState(
     windowHeight,
     mousePos: { x: 0, y: 0 },
     hasTouchEnd: false,
-    items: createBoard(0, 2),
+    items: createBoard(0, 2, windowWidth, windowHeight),
     selectedItems: [],
     gridItems: createGridItems(windowWidth, windowHeight),
     animationState: O.some({ type: INITIAL_STATE }),

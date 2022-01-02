@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 
-import { Vec2 } from './components';
+import { Vec2, Vec2Type } from './components';
 
 export const MAX_COLUMNS = 9 as const;
 export const SCALE_NUMBER = 1.04 as const;
@@ -53,4 +53,17 @@ export function getItemPosFromGridPos(
     SCALE_NUMBER * tileHeight;
 
   return { x, y };
+}
+
+export function getItemCenterPosition(
+  gridPos: Vec2,
+  windowWidth: number,
+  windowHeight: number
+): Vec2 {
+  const { tileWidth, tileHeight, marginLeft, marginTop, halfWindowHeight } =
+    useGridHelper(windowWidth, windowHeight);
+  const { x, y } = getItemPosFromGridPos(gridPos, windowWidth, windowHeight);
+  const pos: Vec2 = { x: x + tileWidth / 2, y: y + tileHeight / 2 };
+
+  return pos;
 }

@@ -43,7 +43,7 @@ export class Application {
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.gameState = { ...systems.selectionItem(this.gameState) };
+    systems.selectionItem(this.gameState, deltatime);
     systems.renderGrid(this.ctx, this.gameState);
     systems.render(this.ctx, this.gameState, deltatime);
     systems.animation(this.ctx, this.gameState, deltatime);

@@ -1,7 +1,12 @@
 import { pipe } from 'fp-ts/function';
 import { mapWithIndex } from 'fp-ts/Array';
 
-import { MAX_COLUMNS, SCALE_NUMBER, useGridHelper } from '../utils';
+import {
+  getItemCenterPosition,
+  MAX_COLUMNS,
+  SCALE_NUMBER,
+  useGridHelper,
+} from '../utils';
 import { INITIAL_ITEM_STATE, Item, ItemType, tiles } from '../components';
 import { GridItem, GridItemType } from './gridItem';
 
@@ -12,15 +17,18 @@ export function generateRandomInteger(start: number, end: number) {
   return Math.floor(Math.random() * (end - start + 1)) + start;
 }
 
-export function createBoard(start: number, end: number): Item[][] {
+export function createBoard(
+  start: number,
+  end: number,
+  windowWidth: number,
+  windowHeight: number
+): Item[][] {
   const matrix: Array<Array<Item>> = [];
 
   for (let i = 0; i < GRID_SIZE; i += 1) {
     matrix[i] = [];
   }
 
-  // @TODO: This logic is wrong, we need to fix it.
-  // we should render our items as Rows(X) and Columns(Y)
   for (let i = 0; i < GRID_SIZE; i += 1) {
     const firstId = generateRandomInteger(start, end);
     matrix[i][i] = ItemType.encode({
@@ -62,7 +70,15 @@ export function createBoard(start: number, end: number): Item[][] {
 
   const fixGridPos =
     (row: number) =>
-    (i: number, e: Item): Item => ({ ...e, gridPos: { x: row, y: i } });
+    (i: number, e: Item): Item => {
+      const pos = getItemCenterPosition(
+        { x: row, y: i },
+        windowWidth,
+        windowHeight
+      );
+
+      return { ...e, gridPos: { x: row, y: i }, pos };
+    };
   const goThroughItems = (i: number, e: Item[]) =>
     pipe(e, mapWithIndex(fixGridPos(i)));
   const formatMatrix = pipe(mapWithIndex(goThroughItems));

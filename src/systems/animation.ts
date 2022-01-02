@@ -5,19 +5,25 @@ import { pipe } from 'fp-ts/lib/function';
 import { GameState } from '../core';
 import { CLEAN_SELECTED_ITEMS_STATE, INITIAL_STATE } from '../components/state';
 import { getItemPosFromGridPos, useGridHelper } from '../utils';
-import { Item, itemWithIndex, ItemWithIndex, tiles, Vec2 } from '../components';
+import {
+  DELETED_ITEM_STATE,
+  distance,
+  Item,
+  itemWithIndex,
+  ItemWithIndex,
+  tiles,
+  Vec2,
+} from '../components';
 
 export function animation(
   ctx: CanvasRenderingContext2D,
   gameState: GameState,
   deltatime: number
-): GameState {
+) {
   const isCleanSelectedItemState = pipe(
     gameState.animationState,
     O.exists((state) => state.type === CLEAN_SELECTED_ITEMS_STATE)
   );
-  const newGameState = { ...gameState };
-  const newItems = [...gameState.items];
 
   if (isCleanSelectedItemState) {
     // start animation
@@ -73,29 +79,29 @@ export function animation(
         );
       }
 
-      if (
-        item.pos.x >= cleanAnimationTargetPos.x - tileHeight &&
-        item.pos.x <= cleanAnimationTargetPos.x + tileWidth * 2 &&
-        item.pos.y >= cleanAnimationTargetPos.y - tileHeight &&
-        item.pos.y <= cleanAnimationTargetPos.y + tileHeight * 2
-      ) {
-        if (item.isSelected) {
-          newItems[item.gridPos.x].splice(item.gridPos.y, 1);
-        }
+      const itemBoundRadius = tileWidth * 0.44;
+      const targetBoundRadius = 30 as const;
+      const dist = distance(cleanAnimationTargetPos, item.pos);
+      const rSum = targetBoundRadius + itemBoundRadius;
+
+      if (dist < rSum) {
+        // is overlapping
+        // gameState.items[item.gridPos.x].splice(item.gridPos.y, 1);
+        item.state = DELETED_ITEM_STATE;
       }
     }
 
+    gameState.items = pipe(
+      gameState.items,
+      A.map(pipe(A.filter((e) => e.state !== DELETED_ITEM_STATE)))
+    );
+
     if (items.length === 0) {
-      newGameState.animationState = O.some({
+      gameState.animationState = O.some({
         type: INITIAL_STATE,
       });
     }
   }
-
-  return {
-    ...newGameState,
-    items: newItems,
-  };
 }
 
 export default animation;

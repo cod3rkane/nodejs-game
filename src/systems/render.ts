@@ -1,6 +1,7 @@
-import { GameState } from '../core';
+import { drawCircle, GameState } from '../core';
 import { tiles } from '../components';
 import {
+  getItemCenterPosition,
   getItemPosFromGridPos,
   MAX_COLUMNS,
   SCALE_NUMBER,
@@ -80,6 +81,12 @@ export function render(
   ctx.fillStyle = 'rgba(0, 0, 0, 1)';
   ctx.fillRect(0, 0, gameState.windowWidth, gameState.windowHeight / 2);
 
+  // debug code
+  if (true) {
+    // shows the Mouse Bound Radius
+    drawCircle(ctx, gameState.mousePos.x, gameState.mousePos.y, 30, 'red');
+  }
+
   // render items
   for (let row of gameState.items) {
     for (let item of row) {
@@ -103,6 +110,13 @@ export function render(
       }
 
       ctx.drawImage(tiles[item.id].image, x, y, tileWidth, tileHeight);
+
+      // debug code
+      if (false) {
+        // shows the item Bound Radius
+        const radius = tileWidth * 0.44;
+        drawCircle(ctx, item.pos.x, item.pos.y, radius, 'green');
+      }
 
       // debug code
       if (false) {

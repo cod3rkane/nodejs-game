@@ -1,8 +1,8 @@
 import * as t from 'io-ts';
 
-import grape from '../resources/grapes.svg';
+import grape from '../resources/grape.png';
 import avocado from '../resources/avocado.png';
-import watermelon from '../resources/watermelon.svg';
+import apple from '../resources/apple.png';
 import soil from '../resources/soil.jpg';
 import grass from '../resources/grass.jpg';
 
@@ -35,7 +35,7 @@ export const tiles: Tile[] = [
   },
   {
     id: 2,
-    image: getImageFromFile(watermelon),
+    image: getImageFromFile(apple),
     score: 10,
   },
   {
