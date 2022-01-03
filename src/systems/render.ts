@@ -1,15 +1,11 @@
 import { drawCircle, GameState } from '../core';
 import { tiles } from '../components';
 import {
-  getItemCenterPosition,
   getItemPosFromGridPos,
   MAX_COLUMNS,
   SCALE_NUMBER,
   useGridHelper,
 } from '../utils';
-
-// Removes the 2 extras columns and rows.
-const GRID_SIZE = MAX_COLUMNS - 2;
 
 function roundRect(
   ctx: CanvasRenderingContext2D,

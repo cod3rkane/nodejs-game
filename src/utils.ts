@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 
-import { Vec2, Vec2Type } from './components';
+import { Vec2 } from './components';
 
 export const MAX_COLUMNS = 9 as const;
 export const SCALE_NUMBER = 1.04 as const;

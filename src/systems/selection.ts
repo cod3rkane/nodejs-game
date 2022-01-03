@@ -1,18 +1,15 @@
 import { pipe } from 'fp-ts/lib/function';
-import { last } from 'fp-ts/lib/Array';
 import * as O from 'fp-ts/lib/Option';
 import * as A from 'fp-ts/Array';
 
 import { GameState } from '../core';
 import {
   CLEANING_FROM_BOARD_ITEM_STATE,
-  INITIAL_ITEM_STATE,
   Item,
-  ItemType,
 } from '../components/item';
-import { CLEAN_SELECTED_ITEMS_STATE, INITIAL_STATE } from '../components/state';
+import { CLEAN_SELECTED_ITEMS_STATE } from '../components/state';
 import { useGridHelper } from '../utils';
-import { distance, length } from '../components';
+import { distance } from '../components';
 
 export function selectionItem(gameState: GameState, deltatime: number): void {
   const { tileWidth } = useGridHelper(

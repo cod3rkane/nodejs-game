@@ -8,9 +8,6 @@ import { getItemPosFromGridPos, useGridHelper } from '../utils';
 import {
   DELETED_ITEM_STATE,
   distance,
-  Item,
-  itemWithIndex,
-  ItemWithIndex,
   tiles,
   Vec2,
 } from '../components';

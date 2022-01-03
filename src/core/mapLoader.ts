@@ -2,7 +2,7 @@ import { pipe } from 'fp-ts/lib/function';
 import * as O from 'fp-ts/lib/Option';
 import * as A from 'fp-ts/lib/Array';
 
-import { Tile, tiles, TileType } from '../components';
+import { Tile, tiles } from '../components';
 
 export const MAP_01 = '0123321032112321230124462323997012397212320123123';
 /**
