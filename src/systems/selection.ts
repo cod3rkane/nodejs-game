@@ -3,7 +3,12 @@ import * as O from 'fp-ts/lib/Option';
 import * as A from 'fp-ts/Array';
 
 import { GameState } from '../core';
-import { CLEANING_FROM_BOARD_ITEM_STATE, Item } from '../components/item';
+import {
+  CLEANING_FROM_BOARD_ITEM_STATE,
+  INITIAL_ITEM_STATE,
+  Item,
+  ItemType,
+} from '../components/item';
 import { CLEAN_SELECTED_ITEMS_STATE } from '../components/state';
 import { useGridHelper } from '../utils';
 import { distance, Vec2 } from '../components';
@@ -15,6 +20,12 @@ export function selectionItem(gameState: GameState, deltatime: number): void {
   );
   const itemBoundRadius = tileWidth * 0.44;
   const mouseBoundRadius = 30 as const;
+  const isBoundOverlappingWithMouse = (target: Vec2): boolean => {
+    const dist = distance(gameState.mousePos, target);
+    const rSum = mouseBoundRadius + itemBoundRadius;
+
+    return dist < rSum;
+  };
 
   if (!gameState.hasTouchEnd) {
     const hasLastItem = pipe(gameState.selectedItems, A.last);
@@ -60,18 +71,62 @@ export function selectionItem(gameState: GameState, deltatime: number): void {
       );
       const hasItem = pipe(
         cleanAdjacents,
-        A.findFirst((item: Item) => {
-          const dist = distance(gameState.mousePos, item.pos);
-          const rSum = mouseBoundRadius + itemBoundRadius;
-
-          return dist < rSum;
-        })
+        A.findFirst((item: Item) => isBoundOverlappingWithMouse(item.pos))
       );
 
       if (O.isSome(hasItem)) {
         const item = hasItem.value;
         item.isSelected = true;
         gameState.selectedItems.push(item);
+      } else if (gameState.selectedItems.length > 1) {
+        // @TODO: there's a bug in the code below until line 130
+        // start undo last selected items
+        const hasLastButOneSelectedItem = pipe(
+          gameState.selectedItems,
+          A.lookup(gameState.selectedItems.length - 2)
+        );
+
+        if (
+          O.isSome(hasLastButOneSelectedItem) &&
+          isBoundOverlappingWithMouse(hasLastButOneSelectedItem.value.pos)
+        ) {
+          // undo last selected item
+          const removedItem = pipe(
+            gameState.selectedItems,
+            A.last,
+            O.getOrElse(() =>
+              ItemType.encode({
+                id: 0,
+                score: 0,
+                isSelected: false,
+                useAlpha: false,
+                gridPos: {
+                  x: 0,
+                  y: 0,
+                },
+                pos: {
+                  x: 0,
+                  y: 0,
+                },
+                state: INITIAL_ITEM_STATE,
+              })
+            )
+          );
+          gameState.selectedItems.pop();
+
+          const hasItem: O.Option<Item> = pipe(
+            gameState.items,
+            A.lookup(removedItem.gridPos.x),
+            O.getOrElse(() => []),
+            A.lookup(removedItem.gridPos.y)
+          );
+
+          if (O.isSome(hasItem)) {
+            gameState.items[removedItem.gridPos.x][
+              removedItem.gridPos.y
+            ].isSelected = false;
+          }
+        }
       }
     } else {
       // first move

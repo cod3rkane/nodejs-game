@@ -77,7 +77,7 @@ export function animation(
       }
 
       const itemBoundRadius = tileWidth * 0.44;
-      const targetBoundRadius = 15 as const;
+      const targetBoundRadius = 8 as const;
       const dist = distance(cleanAnimationTargetPos, item.pos);
       const rSum = targetBoundRadius + itemBoundRadius;
 
