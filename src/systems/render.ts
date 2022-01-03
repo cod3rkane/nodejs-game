@@ -78,7 +78,7 @@ export function render(
   ctx.fillRect(0, 0, gameState.windowWidth, gameState.windowHeight / 2);
 
   // debug code
-  if (true) {
+  if (false) {
     // shows the Mouse Bound Radius
     drawCircle(ctx, gameState.mousePos.x, gameState.mousePos.y, 30, 'red');
   }

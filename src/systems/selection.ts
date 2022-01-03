@@ -3,13 +3,10 @@ import * as O from 'fp-ts/lib/Option';
 import * as A from 'fp-ts/Array';
 
 import { GameState } from '../core';
-import {
-  CLEANING_FROM_BOARD_ITEM_STATE,
-  Item,
-} from '../components/item';
+import { CLEANING_FROM_BOARD_ITEM_STATE, Item } from '../components/item';
 import { CLEAN_SELECTED_ITEMS_STATE } from '../components/state';
 import { useGridHelper } from '../utils';
-import { distance } from '../components';
+import { distance, Vec2 } from '../components';
 
 export function selectionItem(gameState: GameState, deltatime: number): void {
   const { tileWidth } = useGridHelper(
@@ -27,28 +24,39 @@ export function selectionItem(gameState: GameState, deltatime: number): void {
       const lastSelectedItem: Item = hasLastItem.value;
       const adjacents: Item[] = [];
 
-      // creates adjacents list
+      // creates the adjacent list
       for (let dx = -1; dx <= 1; dx += 1) {
         for (let dy = -1; dy <= 1; dy += 1) {
           if (dx !== 0 || dy !== 0) {
-            const x = lastSelectedItem.gridPos.x + dx;
-            const y = lastSelectedItem.gridPos.y + dy;
+            const row = lastSelectedItem.gridPos.x + dx;
+            const column = lastSelectedItem.gridPos.y + dy;
 
-            try {
-              const item = gameState.items[x][y] || null;
+            const item = pipe(
+              gameState.items,
+              A.flatten,
+              A.findFirst((e) => e.gridPos.x === row && e.gridPos.y === column),
+              O.fold(
+                () => O.none,
+                (e: Item) => {
+                  if (e.id === lastSelectedItem.id) {
+                    return O.some(e);
+                  }
 
-              if (item && item.id === lastSelectedItem.id) {
-                adjacents.push(item);
-              }
-              // eslint-disable-next-line no-empty
-            } catch (err) {}
+                  return O.none;
+                }
+              )
+            );
+
+            if (O.isSome(item)) {
+              adjacents.push(item.value);
+            }
           }
         }
       }
 
       const cleanAdjacents = pipe(
         adjacents,
-        A.filter(e => !e.isSelected),
+        A.filter((e) => !e.isSelected)
       );
       const hasItem = pipe(
         cleanAdjacents,
@@ -105,7 +113,7 @@ export function selectionItem(gameState: GameState, deltatime: number): void {
       for (let row of gameState.items) {
         for (let item of row) {
           if (item.isSelected) {
-            item.state = CLEANING_FROM_BOARD_ITEM_STATE
+            item.state = CLEANING_FROM_BOARD_ITEM_STATE;
           }
         }
       }

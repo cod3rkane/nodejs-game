@@ -77,13 +77,12 @@ export function animation(
       }
 
       const itemBoundRadius = tileWidth * 0.44;
-      const targetBoundRadius = 30 as const;
+      const targetBoundRadius = 15 as const;
       const dist = distance(cleanAnimationTargetPos, item.pos);
       const rSum = targetBoundRadius + itemBoundRadius;
 
       if (dist < rSum) {
         // is overlapping
-        // gameState.items[item.gridPos.x].splice(item.gridPos.y, 1);
         item.state = DELETED_ITEM_STATE;
       }
     }
